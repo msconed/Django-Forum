@@ -1,0 +1,65 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="subforum">
+        {% if forums %}
+        <div class="subforum-title">
+            <h1>Сервер</h1>
+        </div>
+        
+        {% for forum in forums %}
+        <div class="subforum-row">
+            <div class="subforum-icon subforum-column center">
+                <i class="fa fa-gamepad"></i>
+            </div>
+            <div class="subforum-description subforum-column">
+                <h4><a href="{{forum.get_url}}">{{forum.title}}</a></h4>
+                {% if forum.description != 'none' %}
+                    <p>{{forum.description}} </p>
+                {% endif %}
+            </div>
+            <div class="subforum-stats subforum-column center">
+                <span>{{forum.num_posts}} Топиков</span>
+            </div>
+            <div class="subforum-info subforum-column">
+                {% if forum.last_post %}
+                <b><a href="{{forum.last_post.get_url}}">{{forum.last_post}}</a></b>. Автор: <a href="">{{forum.last_post.user.fullname|title}}</a>
+                <br>от <small>{{forum.last_post.date|date}}</small>
+                {% else %}
+                <span>В этой категории нет топиков.</span>
+                {% endif %}
+            </div>
+        </div>
+
+        {% endfor %}
+        {% else %}
+        <div class="subforum-title">
+            <h1><i class="fa fa-frown-o"></i>&nbsp;здесь пока нет топиков.</h1>
+        </div>
+        {% endif %}
+    </div>
+    <!--More-->
+
+</div>
+
+    <!-- Forum Info -->
+    <div class="forum-info">
+        <div class="chart">
+            FORUM - Статистика &nbsp;<i class="fa fa-bar-chart"></i>
+        </div>
+        <!--<span><u>{{num_posts}}</u> Топик в <u>{{num_categories}}</u> Категориях от <u>{{num_users}}</u> Пользователей.</span><br>-->
+        <ul>
+            <li>Всего пользователей: <u>{{num_users}}</u></li>
+            <li>Количество топиков: <u>{{num_posts}}</u></li>
+            <li>Количество сообщений: <u>{{num_comments}}</u></li>
+            <li>Последний топик: <b><a href="{{last_post.get_url}}">{{last_post.title}}</a></b>  от {{last_post.date|date}}. Автор: <a href="">{{last_post.user.fullname|title}}</a></li>
+            <li>Последние <a href="{% url 'latest_posts' %}"> 10 топиков</a> </li>
+        </ul>
+        <!--{% if forums %}
+            <span>.</span><br>
+        {% endif %}-->
+    </div>
+
+    {% endblock content %}

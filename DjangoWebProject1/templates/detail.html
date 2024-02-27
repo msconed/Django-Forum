@@ -1,0 +1,154 @@
+﻿{% extends 'base.html' %}
+{% load hitcount_tags %}
+{% load static %}
+{% block content %}
+
+    <div class="container">
+        <!--Navigation-->
+        <div class="navigate">
+            <span><a href="{{post.categories.all.0.get_url}}">{{post.categories.all.0}}</a> >> <a href="{{post.get_url}}">{{post.title}}</a></span>
+        </div>
+
+        <!--Topic Section-->
+        <div class="topic-container">
+            <!--Original thread-->
+            <div class="head">
+                <div class="authors">Автор</div>
+                <div class="content">Топик: {{post.title}} (Прочитано {% get_hit_count for post %} раз)</div>
+            </div>
+
+            <div class="body">
+                <div class="authors">
+                    <div class="username"><a href="">{{post.user.fullname|title}}</a></div>
+                    <div>{{post.user.groups.all.0.name}}</div>
+                    <br>
+                    <img src="{{post.user.profile_pic.url}}" alt="">
+                    <div>Топиков: <u>{{post.user.num_posts}}</u></div>
+                    {% for id in user_comment_count %}
+                        {% if id.user  == post.user.id %}
+                             <div>Сообщений: <u>{{id.post_count|add:id.reply_count|add:id.comment_count}}</u></div>
+                        {% endif %}
+                    {% endfor %}
+                    <div>Очков: <u>{{post.user.points}}</u></div>
+
+
+                </div>
+                <div class="content">
+                    {{post.content|safe}}
+                    <br>
+                    {% if request.user.is_authenticated %}
+                    <div class="comment">
+                        <button onclick="showComment()">Комментарий</button>
+
+                        {% if request.user.is_authenticated and request.user.is_staff %}
+                        <form action="." method="post">
+                            {% csrf_token %}
+                            {% if post.closed == True %}
+                            <button type="submit" name="open-topic">Открыть топик</button>
+                            {% else %}
+                            <button type="submit" name="close-topic">Закрыть топик</button>
+                            {% endif %}
+                        </form>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+
+        <!--Comment Area-->
+        {% if post.closed == True %}
+        <div style="background-color:#fff;color:#000;font-weight:bolder;padding:20px;width:100%;"> Этот Топик закрыт! </div>
+        {% else %}
+        {% if request.user.is_authenticated %}
+        <form action="." method="post">
+            {% csrf_token %}
+            <div class="comment-area hide" id="comment-area">
+                <textarea name="comment" id="" placeholder="Комментарий ... "></textarea>
+                <input type="submit" value="submit" name="comment-form">
+            </div>
+        </form>
+
+                <!--{{ form.media }}
+                {{ form.as_p }}
+                <input type="hidden" name="comment-id" value="{{comment.id}}">
+                <button name="reply-form" type="submit">Submit</button>-->
+
+
+        {% else %}
+<div style="background-color:#fff;color:#000;font-weight:bolder;padding:20px;width:100%;"> Вам нужно <a href="{% url 'signin' %}"><b>авторизоваться</b></a> чтобы прокомментировать.! </div>        
+
+        {% endif %}
+
+        {% endif %}
+
+        <!--Comments Section-->
+
+        {% for comment in post.comments.all %}
+        <div class="comments-container">
+            <div class="body">
+                <div class="authors">
+                    <div class="username"><a href="">{{comment.user.fullname|title}}</a></div>
+
+                    <div>{{ comment.user.groups.all.first.name }}</div>
+                    <img src="{{comment.user.profile_pic.url}}" alt="">
+                    <div>Топиков: <u>{{comment.user.num_posts}}</u></div>
+                    {% for id in user_comment_count %}
+                        {% if id.user  == comment.user.id %}
+                             <div>Сообщений: <u>{{id.post_count|add:id.reply_count|add:id.comment_count}}</u></div>
+                        {% endif %}
+                    {% endfor %}
+                    <div>Очков: <u>{{comment.user.points}}</u></div>
+                </div>
+                <div class="content">
+                    {{comment.content}}
+                    <br>
+                    {% if request.user.is_authenticated %}
+                    <div class="comment">
+                        <button onclick="showReplies('comment{{comment.id}}')">Ответить</button>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!--Reply Area-->
+        <form action="." method="post">
+            {% csrf_token %}
+            <div class="comment-area hide" id="comment{{comment.id}}">
+                <textarea name="reply" id="" placeholder="Напишите что-нибудь ... "></textarea>
+                <input type="submit" value="submit" name="reply-form">
+                <input type="hidden" name="comment-id" value="{{comment.id}}">
+            </div>
+        </form>
+       
+        <!--Reply section-->
+        {% for reply in comment.replies.all %}
+        <div class="comments-container" style="width: 95%; margin-left:5%;">
+            <div class="body">
+                <div class="authors">
+                    <div class="username"><a href="">{{reply.user.fullname|title}}</a></div>
+                    <div>{{reply.user.groups.all.0}}</div>
+                    <img src="{{reply.user.profile_pic.url}}" alt="">
+                    <div>Топиков: <u>{{reply.user.num_posts}}</u></div>
+                    {% for id in user_comment_count %}
+                        {% if id.user  == comment.user.id %}
+                             <div>Сообщений: <u>{{id.post_count|add:id.reply_count|add:id.comment_count}}</u></div>
+                        {% endif %}
+                    {% endfor %}
+                    <div>Очков: <u>{{reply.user.points}}</u></div>
+                </div>
+                <div class="content">
+                    {{reply.content}}
+                    <br>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endfor %}
+
+       
+        
+
+    </div>
+    {% endblock content %}
