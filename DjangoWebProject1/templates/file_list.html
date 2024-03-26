@@ -1,0 +1,20 @@
+﻿{% extends 'base.html' %}
+
+
+{% block content %}
+    
+    <div class="container">
+        <div class="center">
+            <ul>
+                {% for n, files in files.items %}
+                    {% for file in files %}
+                        <li><a href="{% url 'download_file' file_name=file.0 %}">{{ file.0 }}</a>
+                            <input type="hidden" name="{{file.0}}" value="{{ file.1 }}">
+                        </li>
+                        
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+        {% endblock content %}

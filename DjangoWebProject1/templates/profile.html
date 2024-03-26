@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load hitcount_tags %}
+{% block content %}
+
+
+<div class="container">
+    <div class="profile-row">
+        <div class="profile-column center">
+            <img src="{{author.profile_pic.url}}" alt="" class="rounded-circle p-1 bg-primary" width="110"> <br />
+            <div style="margin-left:25px;">
+                <h4>Никнейм: {{author.fullname}}</h4>
+                <h4>Почта: {{user.email}} <i class="fa-regular fa-circle-check" title="Подтверждено"></i></h4>
+                {% if user.groups.count != 0 %}
+                    <h4>Группа: {{user.groups.all.0}}</h4>
+                {% endif %}
+                <h4>Вы можете обновить аватар:</h4>
+                <form method="POST" action="." enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div id="vxws">
+                            {{form.profile_pic}}
+                    </div>
+                    <input style="margin-left:33%;margin-top:5px;" type="submit" name="update-image" value="Обновить">
+                    {% for field in form %}
+                    {% if field.errors %}
+                    <div class="errorlist">
+                        {% for error in field.errors %}
+                        <div class="error" style="text-align:center; color:red">{{ error|escape }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </form>
+            </div>
+
+        </div>
+
+        <div class="subforum-description subforum-column">
+            <div class="subforum-title center">
+                <h1>Последняя активность</h1>
+            </div>
+            {% if posts %}
+            <div class="table-head">
+                <div class="status">Статус</div>
+                <div class="subjects">Топики</div>
+                <div class="replies">Ответы/Просмотры</div>
+                <div class="last-reply">Последний ответ</div>
+            </div>
+
+            {% for post in posts %}
+            <div class="table-row">
+                {% if post.closed == True %}
+                <div class="status"><i class="fa fa-lock"></i></div>
+                {% elif post.num_comments == 0 %}
+                <div class="status"><i class="fa fa-frown-o"></i></div>
+                {% elif post.num_comments > 0 and post.num_comments < 2 %}
+                <div class="status"><i class="fa fa-book"></i></div>
+                {% elif post.num_comments >= 2 and post.num_comments < 4 %}
+                <div class="status"><i class="fa fa-rocket"></i></div>
+                {% elif post.num_comments >= 4 %}
+                <div class="status"><i class="fa fa-fire"></i></div>
+
+                {% endif %}
+
+                <div class="subjects">
+                    <a href="{{post.get_url}}">{{post.title}}</a>
+                    <br>
+                    <span>Автор: <b><a href="">{{post.user.fullname|title}}</a></b></span>
+                </div>
+                <div class="replies">
+                    {{post.num_comments}} ответов <br> {% get_hit_count for post %} просмотров
+                </div>
+
+                {% if post.last_reply %}
+                <div class="last-reply">
+                    {{post.last_reply.date|date}}
+                    <br>Автор: <b><a href="">{{post.last_reply.user.fullname|title}}</a></b>
+                </div>
+                {% else %}
+                <div class="last-reply">
+                    {{post.date|date}}
+                    <br>Автор: <b><a href="">{{post.user.fullname|title}}</a></b>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="subforum-title center" style="margin-top:25px;min-height:80px;">
+                <h1><i class="fa fa-frown-o"></i>&nbsp;Здесь пока ничего нет.</h1>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+    {% endblock content %}

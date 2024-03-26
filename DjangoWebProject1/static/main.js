@@ -34,3 +34,15 @@ function showReplies(id){
     
 }
 
+function autoFitText() {
+    const textElement = document.getElementById('auth-text');
+    const maxLength = 24;
+
+    if (textElement.textContent.length > maxLength) {
+        textElement.style.fontSize = '12px';
+    }
+}
+
+// Вызываем функцию при загрузке страницы и при изменении размеров окна
+window.addEventListener('DOMContentLoaded', autoFitText);
+window.addEventListener('resize', autoFitText);

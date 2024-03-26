@@ -16,4 +16,5 @@
 /* See https://github.com/django-ckeditor/django-ckeditor/issues/741 */
 textarea.cke_source {
   color: revert;
+  background-color:black;
 }

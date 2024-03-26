@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Notifications</h1>
+
+<ul>
+    {% for notification in notifications %}
+    <li>{{ notification.post.title }} - {{ notification.comment_or_reply }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

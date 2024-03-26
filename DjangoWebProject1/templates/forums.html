@@ -8,31 +8,40 @@
         <div class="subforum-title">
             <h1>Сервер</h1>
         </div>
-        
         {% for forum in forums %}
-        <div class="subforum-row">
-            <div class="subforum-icon subforum-column center">
-                <i class="fa fa-gamepad"></i>
-            </div>
-            <div class="subforum-description subforum-column">
-                <h4><a href="{{forum.get_url}}">{{forum.title}}</a></h4>
-                {% if forum.description != 'none' %}
-                    <p>{{forum.description}} </p>
-                {% endif %}
-            </div>
-            <div class="subforum-stats subforum-column center">
-                <span>{{forum.num_posts}} Топиков</span>
-            </div>
-            <div class="subforum-info subforum-column">
-                {% if forum.last_post %}
-                <b><a href="{{forum.last_post.get_url}}">{{forum.last_post}}</a></b>. Автор: <a href="">{{forum.last_post.user.fullname|title}}</a>
-                <br>от <small>{{forum.last_post.date|date}}</small>
-                {% else %}
-                <span>В этой категории нет топиков.</span>
-                {% endif %}
-            </div>
-        </div>
-
+            {% if forum.title not in 'Жалобы, Заявки на разбан, Объявления' %}
+                <div class="subforum-row">
+                    <div class="subforum-icon subforum-column center">
+                        {% if forum.title == "Ошибки и Баги" %}
+                            <i class="fa-solid fa-bug"></i>
+                        {% elif forum.title == 'Разработка' %}
+                            <i class="fa-solid fa-code"></i>
+                        {% elif forum.title == 'Правила, инструкции' %}
+                            <i class="fa fa-gavel" aria-hidden="true"></i>
+                        {% elif forum.title == 'Новости' %}
+                            <i class="fa-regular fa-newspaper"></i>
+                        {% endif %}
+                        <!--<i class="fa fa-gamepad"></i>-->
+                    </div>
+                    <div class="subforum-description subforum-column">
+                        <h4><a href="{{forum.get_url}}">{{forum.title}}</a></h4>
+                        {% if forum.description != 'none' %}
+                            <p>{{forum.description}} </p>
+                        {% endif %}
+                    </div>
+                    <div class="subforum-stats subforum-column center">
+                        <span>{{forum.num_posts}} Топиков</span>
+                    </div>
+                    <div class="subforum-info subforum-column">
+                        {% if forum.last_post %}
+                        <b><a href="{{forum.last_post.get_url}}">{{forum.last_post}}</a></b>. Автор: <a href="">{{forum.last_post.user.fullname|title}}</a>
+                        <br>от <small>{{forum.last_post.date|date}}</small>
+                        {% else %}
+                        <span>В этой категории нет топиков.</span>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
         {% endfor %}
         {% else %}
         <div class="subforum-title">
@@ -41,7 +50,52 @@
         {% endif %}
     </div>
     <!--More-->
-
+    <div class="subforum">
+        {% if forums %}
+        <div class="subforum-title">
+            <h1>Администрация</h1>
+        </div>
+        {% for forum in forums %}
+            {% if forum.title not in 'Ошибки и Баги, Разработка, Правила, инструкции, Новости' %}
+                <div class="subforum-row">
+                    <div class="subforum-icon subforum-column center">
+                        {% if forum.title == "Жалобы" %}
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        {% elif forum.title == 'Объявления' %}
+                            <i class="fa-solid fa-bullhorn"></i>
+                        {% elif forum.title == 'Правила, инструкции' %}
+                            <i class="fa fa-gavel" aria-hidden="true"></i>
+                        {% elif forum.title == 'Заявки на разбан' %}
+                            <i class="fa-regular fa-handshake"></i>
+                        {% endif %}
+                        <!--<i class="fa fa-gamepad"></i>-->
+                    </div>
+                    <div class="subforum-description subforum-column">
+                        <h4><a href="{{forum.get_url}}">{{forum.title}}</a></h4>
+                        {% if forum.description != 'none' %}
+                            <p>{{forum.description}} </p>
+                        {% endif %}
+                    </div>
+                    <div class="subforum-stats subforum-column center">
+                        <span>{{forum.num_posts}} Топиков</span>
+                    </div>
+                    <div class="subforum-info subforum-column">
+                        {% if forum.last_post %}
+                        <b><a href="{{forum.last_post.get_url}}">{{forum.last_post}}</a></b>. Автор: <a href="">{{forum.last_post.user.fullname|title}}</a>
+                        <br>от <small>{{forum.last_post.date|date}}</small>
+                        {% else %}
+                        <span>В этой категории нет топиков.</span>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+        {% else %}
+        <div class="subforum-title">
+            <h1><i class="fa fa-frown-o"></i>&nbsp;здесь пока нет топиков.</h1>
+        </div>
+        {% endif %}
+    </div>
 </div>
 
     <!-- Forum Info -->

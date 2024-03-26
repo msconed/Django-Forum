@@ -1,44 +1,30 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:image" content="{% static 'logo.png' %}">
+
     <title>{{title}}</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap" rel="stylesheet">
 
-
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'ckeditor/ckeditor/skins/moono-dark/editor.css' %}">
+    <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
 </head>
 
 <body>
-
-
     <header>
-        <!--NavBar Section-->
-        <div class="navbar">
-            <nav class="navigation hide" id="navigation">
-                <span class="close-icon" id="close-icon" onclick="showIconBar()"><i class="fa fa-close"></i></span>
-                <ul class="nav-list">
-                    <li class="nav-item"><a href="{% url 'home' %}">Главная</a></li>
-                    {% if user.is_authenticated %}
-                    <li class="nav-item"><a href="{% url 'logout' %}">Выйти</a></li>
-                    {% else %}
-                    <li class="nav-item"><a href="{% url 'signup' %}">Регистрация</a></li>
-                    <li class="nav-item"><a href="{% url 'signin' %}">Авторизация</a></li>
-                    {% endif %}
-                </ul>
-            </nav>
-            <!--<a class="bar-icon" id="iconBar" onclick="hideIconBar()"><i class="fa fa-bars"></i></a>
-            <div class="brand">FORUM</div>-->
-        </div>
-        <!--SearchBox Section-->
+
         <form action="{% url 'search_result' %}" role="form" method="GET">
             <div class="search-box">
-                <div class="brand"><a class="main" style="color:white" href="#url">FORUM</a></div>
+                <div class="brand"><a class="main" style="color:white" href="{% url 'home' %}">FORUM</a></div>
                 <div>
                     <select name="search-box" id="">
                         <option value="Everything">Везде</option>
@@ -48,15 +34,16 @@
                     <input type="text" name="q" placeholder="Поиск ...">
                     <button type="submit" name="search"><i class="fa fa-search"></i></button>
                 </div>
-                
-                    <ul class="navigation-auth">
-                        <a class="main" href="#url">Navigation #1</a>
-                        <li class="n1"><a href="#">item #1</a></li>
-                        <li class="n2"><a href="#">item #2</a></li>
-                        <li class="n3"><a href="#">item #3</a></li>
-                        <li class="n4"><a href="#">item #4</a></li>
-                        <li class="n5"><a href="#">item #5</a></li>
-                    </ul>
+                <ul class="navigation-auth">
+                    {% if user.is_authenticated %}
+                    <a id="auth-text" style="width:100%" class="main" href="{% url 'profile_page' %}"><span class="fa-regular fa-user"></span> {{author.fullname|title}}</a>
+                    <li class="n1"><a href="{% url 'logout' %}">Выйти</a></li>
+                    {% else %}
+                    <a class="main" href="#url"><i class="fa-regular fa-user"></i> Профиль</a>
+                    <li class="n1"><a href="{% url 'register' %}">Регистрация</a></li>
+                    <li class="n2"><a href="{% url 'auth' %}">Авторизация</a></li>
+                    {% endif %}
+                </ul>
             </div>
         </form>
     </header>
@@ -72,5 +59,18 @@
         <span>&copy;  Weiss | All Rights Reserved</span>
     </footer>
     <script src="{% static 'main.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    </script>
+    <script>
+        document.querySelectorAll('.editor').forEach(function (textarea) {
+            CKEDITOR.replace(textarea, {
+                skin: 'moono-dark'
+            });
+        });
+    </script>
 </body>
 </html>

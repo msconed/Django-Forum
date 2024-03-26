@@ -4,7 +4,17 @@
     <div class="container">
         <!--Navigation-->
         <div class="navigate">
-            <span><a href="{{forum.get_url}}">{{forum.title}}</a></span>
+            <div class="navigate_div">
+                <span><a href="{% url 'home' %}">FORUM</a> >> <a href="{{forum.get_url}}">{{forum.title}}</a></span>
+            </div>
+
+            {% if request.user.is_authenticated %}
+                <div class="create_post_div">
+                    <div class="create_post_btn"><a href="{% url 'create_post' slug=forum.slug %}" title="Создать топик">+</a></div>
+
+                </div>
+            {% endif %}
+            
         </div>
         {% if posts %}
             <!--Display posts table-->
@@ -36,7 +46,7 @@
                     <div class="subjects">
                         <a href="{{post.get_url}}">{{post.title}}</a>
                         <br>
-                        <span>Автор: <b><a href="">{{post.user.fullname|title}}</a></b> .</span>
+                        <span>Автор: <b><a href="">{{post.user.fullname|title}}</a></b></span>
                     </div>
                     <div class="replies">
                         {{post.num_comments}} ответов <br> {% get_hit_count for post %} просмотров
@@ -64,9 +74,9 @@
             
         </div>
         <!--Pagination starts-->
-            {% if posts.is_paginated %}
+            {% if posts_count > 10 %}
                 <div class="pagination">
-                    pages: {% for num_page in posts.paginator.page_range %} <a href="?page={{num_page}}">{{num_page}}</a> {% endfor %}
+                    Страницы: {% for num_page in posts.paginator.page_range %} <a href="?page={{num_page}}">{{num_page}}</a> {% endfor %}
                 </div>
             {% endif %}
         <!--pagination ends-->

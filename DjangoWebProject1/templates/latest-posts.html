@@ -4,7 +4,7 @@
     <div class="container">
         <!--Navigation-->
         <div class="navigate">
-            <span>Последние 10 Топиков</span>
+            <span><a href="{% url 'home' %}">FORUM</a> >> Последние 10 Топиков</span>
         </div>
         <!--Display posts table-->
         <div class="posts-table">
@@ -28,8 +28,13 @@
                 </div>
 
                 <div class="last-reply">
-                    {{post.last_reply.date|date}}
-                    <br>от <b><a href="">{{post.last_reply.user.fullname|title}}</a></b>
+                    {% if post.last_reply == '' %}
+                        {{post.date|date}}
+                        <br>Автор: <b><a href="">{{post.user.fullname|title}}</a></b>
+                    {% else %}
+                        {{post.last_reply.date|date}}
+                        <br>Автор: <b><a href="">{{post.last_reply.user.fullname|title}}</a></b>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}

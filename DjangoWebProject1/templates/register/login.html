@@ -1,0 +1,41 @@
+﻿{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <div class="p-body-inner" style="width: 25%;">
+        <form class="register-form" id="register-form" method="post">
+            {% csrf_token %}
+            {% if error %}
+            <h1 style="text-align:center; color:red">{{error}}</h1>
+            {% endif %}
+            <div class="block-container">
+                <div class="block-body">
+                    <div style="text-align: center; margin-bottom: 15px;padding-top:15px;" class="formRow-explain">Авторизация</div>
+                    <hr class="formRowSep" />
+                    <dl class="formRow">
+                        <dd>
+                            <div style="text-align: center; margin-bottom: 15px;" class="formRow-explain">Введите ваш e-mail</div>
+                            {{form.username}}
+                            <div class="errorlist"></div>
+                        </dd>
+                    </dl>
+                    <dl class="formRow">
+                        <dd>
+                            <div style="text-align: center; margin-bottom: 15px;" class="formRow-explain">Введите ваш пароль</div>
+                            {{ form.password }}
+                            <div class="errorlist"></div>
+                        </dd>
+                    </dl>
+                    <hr class="formRowSep" />
+                    <div class="formSubmitRow-controls">
+                        <div class="errorlist"></div>
+                        <button style="margin-left:-30px;" type="submit" class="button-84">Авторизоваться</button>
+
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+    {% endblock content %}

@@ -2,12 +2,74 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-<h1 style="text-align:center; margin-block:50px; color:red;">Создание топика</h1>
-<!--{{user}}-->
-<form method="POST" style="margin-left:150px;">
-    {% csrf_token %}
-    {{form|crispy}}
-    <input type="submit" value="Save" style="margin-block:50px;">
-</form>
+<div class="container">
+    <div class="navigate">
+        <div class="navigate_div">
+            <span><a href="{% url 'home' %}">FORUM</a> >> <a href="{{category.get_url}}">{{category}}</a> >> <a href="{{request.url}}">Создать топик</a></span>
+        </div>
+    </div>
+        <div class="uix_pageWrapper--fixed">
+            <div class="p-pageWrapper" id="top">
+                <div class="p-body">
+                    <div class="p-body-inner">
+                        <!--[if lt IE 9]><div class="blockMessage blockMessage&#45;&#45;important blockMessage&#45;&#45;iconic">Вы используете устаревший браузер. Этот и другие сайты могут отображаться в нем неправильно.<br />Необходимо обновить браузер или попробовать использовать <a href="https://www.google.com/chrome/browser/" target="_blank">другой</a>.</div><![endif]-->
+                        <div>   
+                            <!-- ABOVE MAIN CONTENT -->
+                            <div>
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <div class="block-container">
+                                        <div class="block-body">
 
-{% endblock content %}
+                                            <dl class="formRow formRow--input formRow--fullWidth formRow--noLabel">
+                                                <dd>
+                                                    <input type="text" name="title" class="input input--title" value="" autocomplete="off" placeholder="Заголовок топика" autofocus="autofocus" maxlength="150" id="topic-name" />
+                                                </dd>
+                                            </dl>
+
+                                            <div class="js-inlineNewPostFields">
+                                                <dl class="formRow formRow--input formRow--fullWidth formRow--noLabel formRow--mergePrev">
+                                                    <dd>
+                                                        <textarea id="topic-text" name="content" class="editor" style="min-height:250px;"></textarea>
+                                                    </dd>
+                                                </dl>
+                                                <hr class="formRowSep" />
+
+                                                <dl class="formRow formRow--input">
+                                                    <dd>
+                                                        <input type="text" name="tags" value="" class="input" data-min-length="3" data-max-length="50" data-max-tokens="20" />
+
+                                                        <div class="formRow-explain">Несколько тегов, разделяемые запятой.</div>
+                                                    </dd>
+                                                </dl>
+                                                <hr class="formRowSep" />
+                                                <div class="formSubmitRow-controls">
+                                                    <button id="creating-post-button" type="submit" class="button-84" role="button">Создать топик</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    document.getElementById("creating-post-button").addEventListener("click", function (event) {
+        var ckeditor = CKEDITOR.instances['topic-text'];
+        var text = ckeditor.getData();
+
+        if (document.getElementById("topic-name").value.trim() === "" || text.trim() === "") {
+            alert("Вы заполнили не все поля");
+            event.preventDefault();
+        }
+    });
+</script>
+
+
+
+</div>
+    {% endblock content %}

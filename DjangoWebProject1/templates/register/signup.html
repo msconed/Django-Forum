@@ -2,12 +2,192 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-<h1 style="text-align:center; margin-block:50px; color:red;">Регистрация</h1>
+<div class="container">
+    <div>
+        <div class="uix_pageWrapper--fixed">
+            <div class="p-pageWrapper" id="top">
+                <div class="p-body">
+                    <div class="p-body-inner" style="width: 25%;">
+                        <!--[if lt IE 9]><div class="blockMessage blockMessage&#45;&#45;important blockMessage&#45;&#45;iconic">Вы используете устаревший браузер. Этот и другие сайты могут отображаться в нем неправильно.<br />Необходимо обновить браузер или попробовать использовать <a href="https://www.google.com/chrome/browser/" target="_blank">другой</a>.</div><![endif]-->
+                        <div>
+                            <div>
+                                <form class="register-form" id="register-form" method="post">
+                                    {% csrf_token %}
+                                    {% if error %}
+                                    <h1 style="text-align:center; color:red">{{error}}</h1>
+                                    {% endif %}
+                                    {% for field in form %}
+                                    {% if field.errors %}
+                                    <div class="errorlist">
+                                        {% for error in field.errors %}
+                                        <div class="error" style="text-align:center; color:red">{{ error|escape }}</div>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <div class="block-container">
+                                        <div class="block-body">
+                                            <div style="text-align: center; margin-bottom: 15px;padding-top:15px;" class="formRow-explain">Регистрация</div>
+                                            <hr class="formRowSep" />
+                                            <dl class="formRow">
+                                                <dd>
+                                                    <div style="text-align: center;margin-bottom:15px;" class="formRow-explain">
+                                                        *Ваш никнейм <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="Не более 150 символов. Только буквы, цифры и символы @/./+/-/_.
+Никнейм должен совпадать с никнеймом на сервере."></i>
+                                                    </div>
+                                                    <hr class="formRowSep" />
+                                                    {{form.username}}
+                                                    <div class="errorlist"></div>
 
-<form method="POST" action="." style="margin-left:150px;margin-bottom: 150px;">
-    {% csrf_token %}    
-    {{form|crispy}}
-    <input type="submit" value="Signup"  style="margin-block:50px;">
-</form>
+                                                </dd>
+                                            </dl>
+                                            <dl class="formRow">
+                                                <dd>
+                                                    <div style="text-align: center; margin-bottom: 15px;" class="formRow-explain">
+                                                        *Укажите ваш e-mail <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="Укажите действующий e-mail.
+В дальнейшем нужно будет его подтвердить."></i>
+                                                    </div>
+                                                    {{form.email}}
+                                                    <div class="errorlist"></div>
+                                                </dd>
+                                            </dl>
+                                            <dl class="formRow">
+                                                <dd>
+                                                    <div style="text-align: center; margin-bottom: 15px;" class="formRow-explain">
+                                                        *Придумайте пароль <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="Пароль не должен быть слишком похож на другую вашу личную информацию.
+Ваш пароль должен содержать как минимум 8 символов.
+Пароль не должен быть слишком простым и распространенным.
+Пароль не может состоять только из цифр."></i>
+                                                    </div>
 
-{% endblock content %}
+                                                    <div class="form-group">
+                                                        {{ form.password1 }}
+                                                        <div class="errorlist"></div>
+
+                                                    </div>
+                                                </dd>
+                                            </dl>
+
+                                            <dl class="formRow">
+                                                <dd>
+                                                    <div style="text-align: center; margin-bottom: 15px;" class="formRow-explain">*Повторите пароль</div>
+                                                    <div class="form-group">
+                                                        {{ form.password2 }}
+                                                        <div class="errorlist"></div>
+                                                    </div>
+                                                </dd>
+                                            </dl>
+                                            <hr class="formRowSep" />
+                                            <div class="formSubmitRow-controls">
+                                                <div class="errorlist"></div>
+                                                <button id="creating-post-button" type="submit" class="button-84" role="button">Создать</button>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                                <script>
+                                    document.querySelector('#id_username').addEventListener('blur', function () {
+                                        var nickname = this.value;
+                                        var pattern = /^[a-zA-Zа-яА-Я0-9@/./+/-/_]+$/;
+
+                                        if (nickname.trim().length < 3) {
+                                            this.nextElementSibling.innerHTML = 'Никнейм должен содержать не менее 3 символов*';
+                                        } else if (nickname.trim().length > 150) {
+                                            this.nextElementSibling.innerHTML = 'Никнейм должен содержать не более 150 символов*';
+                                        } else if (!pattern.test(nickname)) {
+                                            this.nextElementSibling.innerHTML = 'Никнейм может содержать только буквы, цифры и символы @/./+/-/_*';
+                                        } else {
+                                            this.nextElementSibling.innerHTML = '';
+                                        }
+                                    });
+
+                                    document.querySelector('#id_email').addEventListener('blur', function () {
+                                        var email = this.value;
+                                        if (email.trim() === '' || !email.includes('@') || !email.includes('.')) {
+                                            this.nextElementSibling.innerHTML = 'Неверный формат email*';
+                                        } else {
+                                            this.nextElementSibling.innerHTML = '';
+                                        }
+                                    });
+
+                                    document.querySelector('#id_password1').addEventListener('blur', function () {
+                                        var password = this.value;
+                                        var pattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+                                        if (password.trim() === '' || password.length < 8) {
+                                            this.nextElementSibling.innerHTML = 'Пароль должен содержать не менее 8 символов*';
+                                        } else if (!pattern.test(password)) {
+                                            this.nextElementSibling.innerHTML = 'Пароль должен содержать хотя бы одну букву, одну цифру и один специальный символ*';
+                                        } else {
+                                            this.nextElementSibling.innerHTML = '';
+                                        }
+                                    });
+
+                                    document.querySelector('#id_password2').addEventListener('blur', function () {
+                                        var confirmPassword = this.value;
+                                        var password = document.querySelector('#id_password1').value;
+
+                                        if (confirmPassword !== password) {
+                                            this.nextElementSibling.innerHTML = 'Пароли не совпадают*';
+                                        } else {
+                                            this.nextElementSibling.innerHTML = '';
+                                        }
+                                    });
+
+
+                                    document.querySelector('#register-form').addEventListener('submit', function (event) {
+                                        var nickname = document.querySelector('#id_username').value.trim();
+                                        var email = document.querySelector('#id_email').value.trim();
+                                        var password = document.querySelector('#id_password1').value.trim();
+                                        var confirmPassword = document.querySelector('#id_password2').value.trim();
+
+                                        var nicknameErrorMsg = document.querySelector('#id_username').nextElementSibling;
+                                        var emailErrorMsg = document.querySelector('#id_email').nextElementSibling;
+                                        var passwordErrorMsg = document.querySelector('#id_password1').nextElementSibling;
+                                        var confirmPasswordErrorMsg = document.querySelector('#id_password2').nextElementSibling;
+
+                                        var pattern = /^[a-zA-Zа-яА-Я0-9@/./+/-/_]+$/;
+                                        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                                        var passwordPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+                                        if (nickname.trim().length < 3 || nickname.trim().length > 150 || !pattern.test(nickname)) {
+                                            event.preventDefault();
+                                            nicknameErrorMsg.innerHTML = 'Никнейм должен содержать от 3 до 150 символов и использовать только буквы, цифры и символы @/./+/-/_*';
+                                        } else {
+                                            nicknameErrorMsg.innerHTML = '';
+                                        }
+
+                                        if (email.trim() === '' || !emailPattern.test(email)) {
+                                            event.preventDefault();
+                                            emailErrorMsg.innerHTML = 'Неверный формат email*';
+                                        } else {
+                                            emailErrorMsg.innerHTML = '';
+                                        }
+
+                                        if (password.trim() === '' || password.length < 8 || !passwordPattern.test(password)) {
+                                            event.preventDefault();
+                                            passwordErrorMsg.innerHTML = 'Пароль должен содержать не менее 8 символов, хотя бы одну букву, одну цифру и один специальный символ*';
+                                        } else {
+                                            passwordErrorMsg.innerHTML = '';
+                                        }
+
+                                        if (confirmPassword !== password) {
+                                            event.preventDefault();
+                                            confirmPasswordErrorMsg.innerHTML = 'Пароли не совпадают*';
+                                        } else {
+                                            confirmPasswordErrorMsg.innerHTML = '';
+                                        }
+                                    });
+
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    {% endblock content %}

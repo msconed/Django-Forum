@@ -7,6 +7,7 @@
     <SuppressConfigureTestFrameworkPrompt>true</SuppressConfigureTestFrameworkPrompt>
     <SuppressEnvironmentCreationPrompt>True</SuppressEnvironmentCreationPrompt>
     <InterpreterId>MSBuild|env|$(MSBuildProjectFullPath)</InterpreterId>
+    <SuppressPackageInstallationPrompt>True</SuppressPackageInstallationPrompt>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -14,8 +15,7 @@
     <ProjectGuid>e50bcdb7-5681-4a4f-8ae2-0ddb5ac653a5</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <ProjectTypeGuids>{5F0BE9CA-D677-4A4D-8806-6076C0FAAD37};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
-    <StartupFile>
-    </StartupFile>
+    <StartupFile>manage.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -237,6 +237,9 @@
     <Folder Include="static\ckeditor\ckeditor\plugins\wsc\skins\moono-lisa\" />
     <Folder Include="static\ckeditor\ckeditor\plugins\xml\" />
     <Folder Include="static\ckeditor\ckeditor\skins\" />
+    <Folder Include="static\ckeditor\ckeditor\skins\moono-dark\" />
+    <Folder Include="static\ckeditor\ckeditor\skins\moono-dark\images\" />
+    <Folder Include="static\ckeditor\ckeditor\skins\moono-dark\images\hidpi\" />
     <Folder Include="static\ckeditor\ckeditor\skins\moono-lisa\" />
     <Folder Include="static\ckeditor\ckeditor\skins\moono-lisa\images\" />
     <Folder Include="static\ckeditor\ckeditor\skins\moono-lisa\images\hidpi\" />
@@ -250,6 +253,7 @@
     <Folder Include="static\ckeditor\galleriffic\js\" />
     <Folder Include="static\django_tinymce\" />
     <Folder Include="static\hitcount\" />
+    <Folder Include="static\js\" />
     <Folder Include="static\tinymce\" />
     <Folder Include="static\tinymce\icons\" />
     <Folder Include="static\tinymce\icons\default\" />
@@ -318,6 +322,9 @@
     <Folder Include="templates\register\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".gitignore">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="db.sqlite3" />
     <Content Include="main\migrations\__pycache__\0001_initial.cpython-39.pyc" />
     <Content Include="main\migrations\__pycache__\0002_category_description.cpython-39.pyc" />
@@ -350,6 +357,9 @@
     <Content Include="register\__pycache__\views.cpython-39.pyc" />
     <Content Include="register\__pycache__\__init__.cpython-39.pyc" />
     <Content Include="requirements.txt" />
+    <Content Include="secrets.env">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="static\admin\css\autocomplete.css" />
     <Content Include="static\admin\css\base.css" />
     <Content Include="static\admin\css\changelists.css" />
@@ -1663,6 +1673,30 @@
     <Content Include="static\ckeditor\ckeditor\plugins\xml\plugin.js" />
     <Content Include="static\ckeditor\ckeditor\README.md" />
     <Content Include="static\ckeditor\ckeditor\SECURITY.md" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\dialog.css" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\dialog_ie.css" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\dialog_ie7.css" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\dialog_ie8.css" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\dialog_iequirks.css" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\editor.css" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\editor_gecko.css" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\editor_ie.css" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\editor_ie7.css" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\editor_ie8.css" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\editor_iequirks.css" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\icons.png" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\icons_hidpi.png" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\images\arrow.png" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\images\close.png" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\images\hidpi\close.png" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\images\hidpi\lock-open.png" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\images\hidpi\lock.png" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\images\hidpi\refresh.png" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\images\lock-open.png" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\images\lock.png" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\images\refresh.png" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\readme.md" />
+    <Content Include="static\ckeditor\ckeditor\skins\moono-dark\skin.js" />
     <Content Include="static\ckeditor\ckeditor\skins\moono-lisa\dialog.css" />
     <Content Include="static\ckeditor\ckeditor\skins\moono-lisa\dialog_ie.css" />
     <Content Include="static\ckeditor\ckeditor\skins\moono-lisa\dialog_ie8.css" />
@@ -1742,6 +1776,7 @@
     <Content Include="static\django_tinymce\init_tinymce.js" />
     <Content Include="static\hitcount\hitcount-jquery.js" />
     <Content Include="static\hitcount\jquery.postcsrf.js" />
+    <Content Include="static\logo.png" />
     <Content Include="static\main.js" />
     <Content Include="static\style.css" />
     <Content Include="static\tinymce\icons\default\icons.min.js" />
@@ -1862,11 +1897,16 @@
     <Content Include="templates\base.html" />
     <Content Include="templates\create_post.html" />
     <Content Include="templates\detail.html" />
+    <Content Include="templates\file_list.html" />
     <Content Include="templates\forums.html" />
     <Content Include="templates\home.html" />
     <Content Include="templates\latest-posts.html" />
+    <Content Include="templates\notifications.html">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="templates\posts.html" />
-    <Content Include="templates\register\signin.html" />
+    <Content Include="templates\profile.html" />
+    <Content Include="templates\register\login.html" />
     <Content Include="templates\register\signup.html" />
     <Content Include="templates\register\update.html" />
     <Content Include="templates\search.html" />
@@ -1874,8 +1914,12 @@
   <ItemGroup>
     <Compile Include="main\admin.py" />
     <Compile Include="main\apps.py" />
+    <Compile Include="main\backends.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="main\context_processors.py" />
     <Compile Include="main\forms.py" />
+    <Compile Include="main\middleware.py" />
     <Compile Include="main\migrations\0001_initial.py" />
     <Compile Include="main\migrations\0002_category_description.py" />
     <Compile Include="main\migrations\0003_auto_20210405_1520.py" />
@@ -1888,6 +1932,15 @@
     <Compile Include="main\views.py" />
     <Compile Include="main\__init__.py" />
     <Compile Include="manage.py" />
+    <Compile Include="Procfile.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="project\signals.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="project\asgi.py" />
     <Compile Include="project\settings.py" />
     <Compile Include="project\urls.py" />

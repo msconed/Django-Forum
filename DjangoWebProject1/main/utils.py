@@ -1,5 +1,6 @@
 from hitcount.utils import get_hitcount_model
 from hitcount.views import HitCountMixin
+from django.contrib.auth.models import User
 
 def update_views(request, object):
     context = {}
@@ -13,3 +14,17 @@ def update_views(request, object):
         hitcontext["hitcounted"] = hit_count_response.hit_counted
         hitcontext["hit_message"] = hit_count_response.hit_message
         hitcontext["total_hits"] = hits
+
+
+
+
+def authenticate_email(email=None, password=None):
+    if email is None or password is None:
+        return None
+
+    try:
+        user = User.objects.get(email=email)
+        if user.check_password(password):
+            return user
+    except User.DoesNotExist:
+        return None
