@@ -13,7 +13,6 @@ env = environ.Env(
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'mj16$30&s%(@9(k1-zuo2=s25p#i$matld^(6eje4co+@llx#!@)#(!@*#HN!U(@NV!vnvdm0vwandu929n1293n!#!@!#@!#@1231257&@#@#@2'
 
 
 
@@ -80,11 +79,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'project.wsgi.application'
 
 
-# STEAM AUTH
 
-#STEAM_API_KEY = '4B2748AAD3E616F5D885D3854DA0F29F'
-SOCIAL_AUTH_STEAM_KEY = '4B2748AAD3E616F5D885D3854DA0F29F'
-SOCIAL_AUTH_STEAM_SECRET = 'SECRET'
 
 
 # Database
